@@ -116,3 +116,16 @@ elements.time_bomb = {
         }
     }
 }
+
+elements.flying_bomber = {
+    color: "#8583c9",
+    behavior: behaviors.FLY,
+    state: "solid",
+    tick: function(pixel) {
+        if (Math.random() < 0.01) {createPixel("bomb", pixel.x, pixel.y+10);}
+    },
+    hardness: 1,
+    tempHigh: 9000,
+    stateHigh: "magma",
+    density: 4000,
+ };
