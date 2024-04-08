@@ -131,42 +131,42 @@ elements.flying_bomber = {
 };
 
 elements.super_powder = {
-  color: ["#000000", "#C0C0C0"],
-	behavior: [
-   "XX|DL|XX",
-   "DL|EX:20%15>plasma,plasma,radiation,fire,rad_cloud|DL" ,
-   "M2|DL AND M1|M2",
-  ],
-	category: "weapons",
-	state: "solid",
+    color: ["#000000", "#C0C0C0"],
+    behavior: [
+        "XX|DL|XX",
+        "DL|EX:20%15>plasma,plasma,radiation,fire,rad_cloud|DL" ,
+        "M2|DL AND M1|M2",
+    ],
+    category: "weapons",
+    state: "solid",
     temp: 98000,
 };
 
-    elements.crawl = {
+elements.crawl = {
     color: ["#800080", "#FFA500"],
-behavior: [
-    "XX|CH:crawl|XX",
-    "CH:crawl|EX:60>plasma,plasma,plasma,plasma,radiation,rad_steam%0.01|CH:crawl",
-    "M2|M1 AND CH:crawl|M2",
-],
-  state: "solid",
-  temp: 9000,
-  reactions: {
-    "super_powder": { elem1: "ultra_uranium", elem2: "null"},
-}
-    };
+    behavior: [
+        "XX|CH:crawl|XX",
+        "CH:crawl|EX:60>plasma,plasma,plasma,plasma,radiation,rad_steam%0.01|CH:crawl",
+        "M2|M1 AND CH:crawl|M2"
+    ],
+    state: "solid",
+    temp: 9000,
+    reactions: {
+        "super_powder": { elem1: "ultra_uranium", elem2: "null"},
+    }
+};
 
 elements.ultra_uranium = {
-	color: ["#50C878" , "#4F7942"],
-	behavior: [
-     "XX|XX|XX",
-     "XX|DL%5|XX",
-     "M2%25|M1%25|M2%25",
-],
-	category: "weapons",
-	state: "solid",
-        temp: 9999999999999999,
-        hardness: 1,
+    color: ["#50C878" , "#4F7942"],
+    behavior: [
+        "XX|XX|XX",
+        "XX|DL%5|XX",
+        "M2%25|M1%25|M2%25",
+    ],
+    category: "weapons",
+    state: "solid",
+    temp: 9999999999999999,
+    hardness: 1,
 };
 
 elements.mega_beam = {
@@ -205,6 +205,7 @@ elements.mega_beam = {
     excludeRandom: true,
     noMix: true
 };
+
 elements.fire_tornado = {
     color: ["#FF8C00","#FFDF00","#E41B17"],
     tick: function(pixel) {
