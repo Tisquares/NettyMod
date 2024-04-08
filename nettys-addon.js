@@ -4,41 +4,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-elements.bouncy_bomb = {
-    color: "#ff0000",
-    category: "weapons",
-    state: "solid",
-    hidden: true,
-    tick: function (pixel) {
-        // Ask tisqbisque or modding channel with questions
-        if (pixel.start === pixelTicks) { // init starting values
-            pixel.bounce_y = pixel.y + 10; // by default can't bounce back up to starting
-            pixel.bounce = 0; // if even, going down. odd, going up
-        }
-
-        if(pixel.bounce_y > 87) { // temporary, in the future bounce_y can change depending on pixel.y and current bounce count
-            pixel.bounce_y = 86;
-        }
-        
-        // Bouncing
-        if (pixel.bounce % 2 === 0 && !tryMove(pixel, pixel.x, pixel.y + 1)) { // if unable to keep going down
-            pixel.bounce++;
-            tryMove(pixel,pixel.x,pixel.y-1); // bounce up
-        }
-
-        if (pixel.bounce % 2 === 1 && (!tryMove(pixel, pixel.x, pixel.y - 1) || pixel.y <= pixel.bounce_y) ) { // if unable to keep going up
-            pixel.bounce++;
-            pixel.bounce_y += 10; // change bounce height..
-            tryMove(pixel,pixel.x,pixel.y+1); // bounce down
-        }
-
-        // Explode after set # bounces, may explode on peak height if # odd
-        if (pixel.bounce > 10) {
-            explodeAt(pixel.x, pixel.y, 20, "plasma");
-        }
-    },
-};
-
 elements.heavenly_ray = {
     color: ["#FFFF00", "#FFFFFF", "#7FFFD4"],
     reactions: {
@@ -131,7 +96,7 @@ elements.flying_bomber = {
  };
 
  elements.bouncy_bomb = {
-    color: ["#736F6E", "#625D5D"]
+    color: ["#736F6E", "#625D5D"],
     category: "weapons",
     state: "solid",
     hidden: true,
