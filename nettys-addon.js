@@ -4,6 +4,149 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+elements.death_star = {
+    color:  ["#49413F", "#3B2F2F"],
+    category: "weapons", 
+    behavior: [
+    "XX|XX|XX",
+    "XX|XX|BO AND M1",
+    "XX|XX|XX",
+    ],
+ tick:function(pixel){
+     createPixel ("blaster", pixel.x, pixel.y+10) 
+    },
+   tempHigh: 3000,
+   stateHigh: "plasma",
+   state: "solid",
+  };
+  elements.flying_bomber = {
+    color: "#8583c9",
+    category: "weapons",
+    behavior: behaviors.FLY,
+    state: "solid",
+     tick: function(pixel) {
+    if (Math.random() < 1) {createPixel("bomb", pixel.x, pixel.y+1);}
+     },
+  };
+  elements.super_missile = {
+    color: ["", "#E1DFDF"], // The color slot is supposed to be empty lol
+    category: "weapons",
+    behavior: [
+      "XX|M1|XX",
+      "XX|XX|XX",
+      "XX|CR:flash|XX",
+    ],
+    tick: function(pixel) {
+      for (var i = 0; i < squareCoords.length; i++) {
+                var coord = squareCoords[i];
+                var x = pixel.x+coord[0];
+                var y = pixel.y+coord[1];
+     if (isEmpty(x, y, true) && !isEmpty(x, y)) {
+            explodeAt(pixel.x, pixel.y, 25, "plasma");
+     }
+    }
+   },
+  };
+  elements.energy_wave = {
+  color: "#F1FF00",
+  category: "weapons",
+  behavior: [
+    "DL|XX|DL",
+    "M1 AND BO AND DL|EX:25>lightning%0.25|DL",
+    "DL|XX|DL",
+  ],
+tick: function(pixel) {
+   createPixel("flash", pixel.x-1, pixel.y)
+   createPixel("energy_wave", pixel.x-1, pixel.y)
+},
+ };
+ elements.the_spread = {
+  color: ["#5B0470", "#7E0434"],
+  category: "weapons",
+  behavior: [
+    "CH:uranium>the_spread|CH:uranium>the_spread|CH:uranium>the_spread",
+    "CH:uranium>the_spread|XX|CH:uranium>the_spread",
+    "CH:uranium>the_spread|CH:uranium>the_spread|CH:uranium>the_spread",
+     ],
+     tick: function(pixel) {
+      if (Math.random() < 0.10) {
+        createPixel("cld_spread", pixel.x-Math.floor(Math.random())*35, pixel.y-50)
+        createPixel("lightning", pixel.x-Math.floor(Math.random())*35, pixel.y-50)
+      }
+     // Generates a storm
+     },
+   reactions: {
+    "dirt": { elem1: "the_spread", elem2: "the_spread"},
+    "lightning": { elem1: "explosion", elem2: "lightning"},
+   }
+};
+// Cloud Generator for spread
+elements.cld_spread = {
+   color: "#FFFFFF",
+   temp: 9999,
+   tick: function(pixel) {
+    explodeAt(pixel.x, pixel.y, 25, "rad_cloud")
+    deletePixel(pixel.x, pixel.y);
+},
+   tempHigh: 8000,
+   hidden: true,
+   stateHigh: "plasma"
+};
+elements.instafreeze = {
+  color: ["#50D6EC", "#091761", "#9FFEFF"],
+  category: "weapons",
+  behavior: behaviors.SUPERFLUID,
+  temp: -1e+27,
+  tick: function(pixel) {
+     if (Math.floor(Math.random())*35 < 5) {
+      createPixel("permafrost", pixel.x-1, pixel.y)
+      createPixel("permafrost", pixel.x+1, pixel.y)
+      createPixel("permafrost", pixel.x, pixel.y-1)
+      createPixel("permafrost", pixel.x, pixel.y+1)
+     }
+},
+    breakInto: "ice_nine",
+    
+};
+elements.the_sickness = {
+  color: ["#FFFFFF", "#F0EFEF", "#5F1C74"],
+  category: "weapons",
+  behavior: behaviors.LIQUID,
+  tick: function(pixel) {     // *if not pixel below is empty, create a stalk and delete itself*
+    if (!isEmpty(pixel.x, pixel.y+1)) {
+      createPixel("sickness_stalk", pixel.x, pixel.y-1)
+      deletePixel(pixel.x, pixel.y)
+    }
+  },
+};
+
+elements.sickness_stalk = {
+  color: "#FFFFFF",
+  hidden: true,
+  behavior: behaviors.WALL,
+  tick: function(pixel) {
+    if ( pixel.toGrow === undefined ) {
+      pixel.toGrow = Math.floor(Math.random())*30
+    }
+    if ( pixel.toGrow && isEmpty(pixel.x, pixel.y-1) ) {
+      createPixel("sickness_stalk", pixel.x, pixel.y-1)
+      pixelMap[pixel.x][pixel.y-1].toGrow = pixel.toGrow-1
+    }
+  else {
+        // do when its done growing (toGrow is 0)
+        createPixel("sickness_spore", pixel.x, pixel.y-1)
+   }
+  },
+};
+elements.sickness_spores = {
+  color: "#F0EFEF",
+  hidden: true,
+  behavior: behaviors.WALL, 
+  reactions: {
+        "fire": { elem1: "fire", elem2: "the_sickness" },
+  },
+};
+
 elements.heavenly_ray = {
     color: ["#FFFF00", "#FFFFFF", "#7FFFD4"],
     reactions: {
